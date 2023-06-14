@@ -1,0 +1,57 @@
+\section{Constraint Satisfaction Problems (CSPs)}
+\textbf{What is backtracking?} Backtracking is a general algorithm for finding all (or some) solutions to some computational problems, notably constraint satisfaction problems, that incrementally builds candidates to the solutions, and abandons each partial candidate c ("backtracks") as soon as it determines that c cannot possibly be completed to a valid solution.\\
+\textbf{What are CSPs?} A constraint satisfaction problem (CSP) is a problem where we have a set of variables, each with a domain of possible values, and a set of constraints. The goal is to assign a value to each variable such that all constraints are satisfied. CSPs are NP-hard due to $O(d^n)$ time complexity. This is because we have $n$ variables, each with $d$ possible values.\\
+
+\subsection{Ways to solve CSPs}
+\textbf{Minimum Remaining Values Heuristic (MRV)}: Choose the variable with the fewest legal values.\\
+\textbf{Degree Heuristic}: Choose the variable with the most constraints on remaining variables.\\
+\textbf{Least Constraining Value Heuristic}: Choose the value that rules out the fewest values in the remaining variables. This permits the maximum remaining flexibility for remaining variables, making it more likely to find a complete solution in future.\\
+\textbf{[UNFINISHED] Filtering using Arc Consistency}: An arc $(X_i, X_j)$ is consistent if for every value in the current domain of $X_i$, there is some value in the current domain of $X_j$ that satisfies the binary constraint on the arc.\\
+\begin{itemize}
+    \item A CSP variable is arc-consistent if every value in its domain satisfies all relevant binary constraints.
+    \item For $X, Y$ variables involved in a constraint, $X \rightarrow Y$ arc-consistent if for every value $x$ in the current domain of $X$, there is some allowed value $y$ in the current domain of $Y$ that satisfies the constraint on the arc $(X, Y)$.
+    \item The AC-3 algorithm enumerates all possible arcs in a queue $Q$ and makes \dots
+    \item \dots
+\end{itemize}
+
+\section{Conditional Probability}
+Recall the conditional probability of event $A$ given event $B$ with $P(B)>0$ is:
+
+$$
+P(A \mid B)=\frac{P(A, B)}{P(B)}
+$$
+
+Conditional probability shares the same properties as probability, but $P(\cdot \mid B)$ updates our uncertainty about events to incorporate the information provided (if any) that the event $B$ has occurred - in effect treating $B$ as "observed data". Importantly, all probabilities can be thought of as conditional probabilities - whenever a statement about probability is made, there is always some prior information we condition on, even if it is so obvious we do not write it down explicitly.
+
+\section{Bayes' Theorem}
+In the context of applications to artificial intelligence, Bayes' Theorem is useful to understand our uncertainty surrounding some uncertain hypothesis $H$, given observed data/information $X$.
+
+$$
+P(H \mid X)=\frac{P(X \mid H) P(H)}{P(X)}
+$$
+
+\begin{itemize}
+  \item The likelihood $P(X \mid H)$ is the conditional probability of the data $X$ given fixed $H$.
+
+  \item The prior $P(H)$ represents information we have that is not part of the collected data $X$ consider this our pre-existing degree of belief in the hypothesis $H$ before observing any data. - The evidence $P(X)$ is the average over all possible values of $H$, calculated using the law of total probability:
+
+\end{itemize}
+
+$$
+P(X)=\sum_{h} P(X \mid H=h) P(H=h)
+$$
+
+$P(H \mid X)$ is the posterior distribution, which represents our updated beliefs around the hypothesis now we have observed the data $X$. Bayes' Theorem may also be conveniently expressed in terms of the posterior odds, which circumvents calculation of the evidence $p(H)$ :
+
+$$
+\frac{p(H \mid X)}{p\left(H^{c} \mid X\right)}=\frac{P(X \mid H)}{P\left(X \mid H^{c}\right)} \cdot \frac{P(H)}{P\left(H^{c}\right)}
+$$
+
+Note $H^{c}$ may be replaced with $\neg H$ for binary random variables. Conditional probabilities are probabilities as well, so it is straightforward to extend Bayes' Theorem to incorporate extra conditioning on another event $Y$, provided $P(H \mid Y), P(X \mid Y)>0$ :
+
+$$
+P(H \mid X, Y)=\frac{P(X \mid H, Y) P(H \mid Y)}{P(X \mid Y)}
+$$
+
+Bayes' Theorem is an apparently simple consequence of the definition of conditional probability, but has deep consequences. The basic intuition here is that going in one direction e.g. $P(X \mid H)$ is easier than finding the probability $P(H \mid X)$ in the other direction.
+
